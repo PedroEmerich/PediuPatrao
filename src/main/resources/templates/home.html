@@ -1,16 +1,19 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <title>Home</title>
-</head>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
 <body>
-
-<div class="container-fluid vh-100 d-flex justify-content-center align-items-center" th:fragment="content">
-    <div class="text-center">
-        <h1>Bem-vindo!!!</h1>
-        <img th:src="@{/images/logo.png}" alt="Logo" width="500" height="500">
+<div th:fragment="content">
+    <div class="painel boas-vindas">
+        <div>
+            <h1 class="mb-1">Olá, <span th:text="${usuarioLogado}">atendente</span>!</h1>
+            <p class="texto-2 mb-0">Bom turno. Por onde vamos começar?</p>
+        </div>
+        <img th:src="@{/images/logo.png}" alt="Logo Pediu Patrão">
+    </div>
+    <div class="atalhos">
+        <a class="painel atalho" th:href="@{/pedidos}"><i class="bi bi-receipt"></i><div><strong>Pedidos</strong><div class="small texto-3">Registrar e acompanhar</div></div></a>
+        <a class="painel atalho" th:href="@{/clientes}"><i class="bi bi-people"></i><div><strong>Clientes</strong><div class="small texto-3">Cadastro e endereços</div></div></a>
+        <a class="painel atalho" th:href="@{/produtos}"><i class="bi bi-basket"></i><div><strong>Cardápio</strong><div class="small texto-3">Produtos e preços</div></div></a>
     </div>
 </div>
-
 </body>
 </html>
