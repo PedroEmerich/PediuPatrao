@@ -1,74 +1,34 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-    <head>
-        <meta charset="UTF-8">
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-    </head>
-    <body>
-        <div th:fragment="sidebar">
-            <div id="sidebar">
-                <h4 class="text-center py-3">Pediu Patrão</h4>
-                <ul class="nav flex-column">
-                    <li class="nav-item">
-                        <a class="nav-link" th:href="@{/}" aria-current="page">
-                            <i class="bi bi-house"></i><span class="d-none d-md-inline">&nbsp;Home</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" th:href="@{/clientes}">
-                            <i class="bi bi-person-raised-hand"></i><span class="d-none d-md-inline">&nbsp;Clientes</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" th:href="@{/pedidos}">
-                            <i class="bi bi-bag"></i><span class="d-none d-md-inline">&nbsp;Pedidos</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" th:href="@{/auditoria}">
-                            <i class="bi bi-journal-text"></i><span class="d-none d-md-inline">&nbsp;Auditoria</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#" onclick="toggleSubmenu(event, this)">
-                            <i class="bi bi-gear"></i><span class="d-none d-md-inline">&nbsp;Configurações</span>
-                            <span class="float-end">&#9662;</span> <!-- Setinha -->
-                        </a>
-                        <ul class="nav flex-column submenu">
-                            <li class="nav-item">
-                                <a class="nav-link" th:href="@{/funcionarios}">
-                                    <i class="bi bi-person-walking"></i><span class="d-none d-md-inline">&nbsp;Funcionários</span>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" th:href="@{/entregadores}">
-                                    <i class="bi bi-bicycle"></i><span class="d-none d-md-inline">&nbsp;Entregadores</span>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" th:href="@{/horarios}">
-                                    <i class="bi bi-clock"></i><span class="d-none d-md-inline">&nbsp;Horário de Funcionamento</span>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" th:href="@{/produtos}">
-                                    <i class="bi bi-boxes"></i><span class="d-none d-md-inline">&nbsp;Produtos</span>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" th:href="@{/usuarios}">
-                                    <i class="bi bi-people-fill"></i><span class="d-none d-md-inline">&nbsp;Usuários</span>
-                                </a>
-                            </li>
-                    </li>
-                </ul>
-                </li>
-                </ul>
-                    <a th:href="@{/logout}" class="btn btn-outline-light btn-sm mx-3 mt-3">
-                        <i class="bi bi-box-arrow-right">Sair</i>
-                    </a>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<body>
+<aside class="sidebar" id="sidebar" th:fragment="sidebar">
+    <a class="marca" th:href="@{/}">
+        <span class="marca-icone"><i class="bi bi-fire"></i></span>
+        <span>Pediu<b>Patrão</b></span>
+    </a>
 
-            </div>
-        </div>
-    </body>
+    <nav class="menu">
+        <small class="menu-secao">Visão geral</small>
+        <a class="menu-link" th:href="@{/dashboard}" th:if="${perfilLogado == 'ADMIN' or perfilLogado == 'GERENTE'}">
+            <i class="bi bi-speedometer2"></i><span>Dashboard</span>
+        </a>
+        <a class="menu-link" th:href="@{/}" th:if="${perfilLogado == 'ATENDENTE'}">
+            <i class="bi bi-house-door"></i><span>Início</span>
+        </a>
+
+        <small class="menu-secao">Operação</small>
+        <a class="menu-link" th:href="@{/pedidos}"><i class="bi bi-receipt"></i><span>Pedidos</span></a>
+        <a class="menu-link" th:href="@{/clientes}" th:if="${perfilLogado != 'ADMIN'}"><i class="bi bi-people"></i><span>Clientes</span></a>
+        <a class="menu-link" th:href="@{/produtos}"><i class="bi bi-basket"></i><span>Produtos</span></a>
+
+        <th:block th:if="${perfilLogado == 'ADMIN' or perfilLogado == 'GERENTE'}">
+            <small class="menu-secao">Controle</small>
+            <a class="menu-link" th:href="@{/auditoria}"><i class="bi bi-shield-check"></i><span>Auditoria</span></a>
+            <a class="menu-link" th:href="@{/usuarios}" th:if="${perfilLogado == 'ADMIN'}"><i class="bi bi-person-gear"></i><span>Usuários</span></a>
+        </th:block>
+    </nav>
+
+    <a class="menu-link sair" th:href="@{/logout}"><i class="bi bi-box-arrow-left"></i><span>Sair</span></a>
+</aside>
+</body>
 </html>

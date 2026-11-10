@@ -14,6 +14,7 @@ import com.umc.pediupatrao.service.UsuarioService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.security.core.Authentication;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -54,8 +55,20 @@ public class HomeController {
     }
 
     @GetMapping("/")
-    public String home(Model model) {
+    public String home(Authentication auth, Model model) {
+        // Admin e gerente caem direto no dashboard; atendente vê a tela inicial.
+        if (auth != null && auth.getAuthorities().stream()
+                .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN") || a.getAuthority().equals("ROLE_GERENTE"))) {
+            return "redirect:/dashboard";
+        }
         model.addAttribute("content", "home :: content");
+        return "layout";
+    }
+
+    @GetMapping("/dashboard")
+    public String dashboard(Model model) {
+        model.addAttribute("content", "dashboard :: content");
+        model.addAttribute("pagina", "dashboard");
         return "layout";
     }
 
@@ -206,11 +219,6 @@ public class HomeController {
     public String configuracoes(Model model) {
         model.addAttribute("content", "configuracoes :: content");
         return "layout";
-    }
-
-    @GetMapping("/teste")
-    public String teste() {
-        return "teste";
     }
 
     @GetMapping("/admin")
