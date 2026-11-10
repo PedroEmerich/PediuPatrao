@@ -1,0 +1,260 @@
+### GET /api/v1/dashboard/resumo?dataInicio=2026-11-01&dataFim=2026-11-10   (usuário: gerente)
+{
+  "faturamento": 4215.9,
+  "totalPedidos": 46,
+  "pedidosValidos": 41,
+  "pedidosCancelados": 5,
+  "pedidosEmAndamento": 3,
+  "pedidosFinalizados": 38,
+  "ticketMedio": 102.83,
+  "taxaCancelamento": 10.87,
+  "totalDescontos": 149.1,
+  "itensVendidos": 128,
+  "variacaoFaturamento": -15.34
+}
+-> HTTP 200
+
+### GET /api/v1/dashboard/vendas?dataInicio=2026-11-04&dataFim=2026-11-10&agrupamento=dia   (usuário: gerente)
+[
+  {
+    "periodo": "2026-11-04",
+    "faturamento": 196.0,
+    "pedidos": 2
+  },
+  {
+    "periodo": "2026-11-05",
+    "faturamento": 282.2,
+    "pedidos": 2
+  },
+  {
+    "periodo": "2026-11-06",
+    "faturamento": 675.5,
+    "pedidos": 7
+  },
+  {
+    "periodo": "2026-11-07",
+    "faturamento": 567.0,
+    "pedidos": 7
+  },
+  {
+    "periodo": "2026-11-08",
+    "faturamento": 259.2,
+    "pedidos": 3
+  },
+  {
+    "periodo": "2026-11-09",
+    "faturamento": 204.0,
+    "pedidos": 2
+  },
+  {
+    "periodo": "2026-11-10",
+    "faturamento": 342.5,
+    "pedidos": 3
+  }
+]
+-> HTTP 200
+
+### GET /api/v1/dashboard/status?dataInicio=2026-11-01   (usuário: gerente)
+[
+  {
+    "status": "RECEBIDO",
+    "quantidade": 2,
+    "percentual": 4.35
+  },
+  {
+    "status": "EM_PREPARACAO",
+    "quantidade": 1,
+    "percentual": 2.17
+  },
+  {
+    "status": "PRONTO",
+    "quantidade": 0,
+    "percentual": 0.0
+  },
+  {
+    "status": "SAIU_PARA_ENTREGA",
+    "quantidade": 0,
+    "percentual": 0.0
+  },
+  {
+    "status": "RETIRADO",
+    "quantidade": 0,
+    "percentual": 0.0
+  },
+  {
+    "status": "FINALIZADO",
+    "quantidade": 38,
+    "percentual": 82.61
+  },
+  {
+    "status": "CANCELADO",
+    "quantidade": 5,
+    "percentual": 10.87
+  }
+]
+-> HTTP 200
+
+### GET /api/v1/dashboard/produtos/top?limite=3&ordenarPor=faturamento   (usuário: admin)
+[
+  {
+    "posicao": 1,
+    "produtoId": "6af39676940c8b5175e84676",
+    "nome": "Pizza Frango com Catupiry",
+    "categoria": "Pizza",
+    "quantidade": 44,
+    "faturamento": 2305.8
+  },
+  {
+    "posicao": 2,
+    "produtoId": "6af39676940c8b5175e84673",
+    "nome": "Pizza Calabresa Especial",
+    "categoria": "Pizza",
+    "quantidade": 45,
+    "faturamento": 2128.8
+  },
+  {
+    "posicao": 3,
+    "produtoId": "6af39676940c8b5175e84674",
+    "nome": "Pizza Quatro Queijos",
+    "categoria": "Pizza",
+    "quantidade": 31,
+    "faturamento": 1586.0
+  }
+]
+-> HTTP 200
+
+### GET /api/v1/dashboard/categorias?status=FINALIZADO   (usuário: admin)
+[
+  {
+    "categoria": "Pizza",
+    "quantidade": 149,
+    "faturamento": 7305.2
+  },
+  {
+    "categoria": "Sobremesa",
+    "quantidade": 66,
+    "faturamento": 2049.6
+  },
+  {
+    "categoria": "Lanche",
+    "quantidade": 57,
+    "faturamento": 1671.8
+  },
+  {
+    "categoria": "Bebida",
+    "quantidade": 56,
+    "faturamento": 716.3
+  },
+  {
+    "categoria": "Esfiha",
+    "quantidade": 49,
+    "faturamento": 348.98
+  }
+]
+-> HTTP 200
+
+### GET /api/v1/dashboard/filtros   (usuário: gerente)
+{
+  "status": [
+    "RECEBIDO",
+    "EM_PREPARACAO",
+    "PRONTO",
+    "SAIU_PARA_ENTREGA",
+    "RETIRADO",
+    "FINALIZADO",
+    "CANCELADO"
+  ],
+  "categorias": [
+    "Bebida",
+    "Esfiha",
+    "Lanche",
+    "Pizza",
+    "Sobremesa"
+  ],
+  "clientes": [
+    {
+      "id": "6af39676940c8b5175e84680",
+      "nome": "Ana Souza"
+    },
+    {
+      "id": "6af39676940c8b5175e84681",
+      "nome": "Bruno Lima"
+    },
+    {
+      "id": "6af39676940c8b5175e84682",
+      "nome": "Carla Mendes"
+    },
+    {
+      "id": "6af39676940c8b5175e8467f",
+      "nome": "Consumidor Balcão"
+    },
+    {
+      "id": "6af39676940c8b5175e84683",
+      "nome": "Diego Rocha"
+    },
+    {
+      "id": "6af39676940c8b5175e84684",
+      "nome": "Eduarda Alves"
+    },
+    {
+      "id": "6af39676940c8b5175e84685",
+      "nome": "Felipe Costa"
+    },
+    {
+      "id": "6af39676940c8b5175e84686",
+      "nome": "Gabriela Nunes"
+    }
+  ],
+  "primeiroPedido": "2026-08-13",
+  "ultimoPedido": "2026-11-10"
+}
+-> HTTP 200
+
+### GET /api/v1/dashboard/vendas?dataInicio=2026-11-10&dataFim=2026-11-01   (usuário: gerente)
+{
+  "timestamp": "2026-11-10T22:11:40.800843802",
+  "status": 400,
+  "erro": "Bad Request",
+  "mensagem": "dataInicio (2026-11-10) não pode ser posterior a dataFim (2026-11-01)",
+  "caminho": "/api/v1/dashboard/vendas"
+}
+-> HTTP 400
+
+### GET /api/v1/dashboard/resumo?status=ENTREGUE   (usuário: gerente)
+{
+  "timestamp": "2026-11-10T22:11:40.905336431",
+  "status": 400,
+  "erro": "Bad Request",
+  "mensagem": "Status inválido: 'ENTREGUE'. Valores aceitos: [RECEBIDO, EM_PREPARACAO, PRONTO, SAIU_PARA_ENTREGA, RETIRADO, FINALIZADO, CANCELADO]",
+  "caminho": "/api/v1/dashboard/resumo"
+}
+-> HTTP 400
+
+### GET /api/v1/dashboard/produtos/top?limite=99   (usuário: gerente)
+{
+  "timestamp": "2026-11-10T22:11:41.014301088",
+  "status": 400,
+  "erro": "Bad Request",
+  "mensagem": "Parâmetro 'limite' deve estar entre 1 e 50",
+  "caminho": "/api/v1/dashboard/produtos/top"
+}
+-> HTTP 400
+
+### GET /api/v1/dashboard/resumo   (usuário: atendente)
+{
+  "timestamp": "2026-11-10T22:11:41.119+00:00",
+  "status": 403,
+  "error": "Forbidden",
+  "path": "/api/v1/dashboard/resumo"
+}
+-> HTTP 403
+
+### GET /api/v1/dashboard/resumo   (usuário: gerente)
+{
+  "timestamp": "2026-11-10T22:11:41.227+00:00",
+  "status": 401,
+  "error": "Unauthorized",
+  "path": "/api/v1/dashboard/resumo"
+}
+-> HTTP 401
+

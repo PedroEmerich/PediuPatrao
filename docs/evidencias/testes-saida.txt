@@ -1,0 +1,12 @@
+[INFO] Running com.umc.pediupatrao.PedidoTest
+[INFO] Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.090 s -- in com.umc.pediupatrao.PedidoTest
+[INFO] Running com.umc.pediupatrao.integracao.DashboardIntegracaoTest
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 4.497 s -- in com.umc.pediupatrao.integracao.DashboardIntegracaoTest
+[INFO] Running com.umc.pediupatrao.service.DashboardCalculadoraTest
+[INFO] Tests run: 12, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.022 s -- in com.umc.pediupatrao.service.DashboardCalculadoraTest
+[INFO] Running com.umc.pediupatrao.service.DashboardFiltroTest
+[INFO] Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.008 s -- in com.umc.pediupatrao.service.DashboardFiltroTest
+[INFO] Running com.umc.pediupatrao.controller.DashboardControllerTest
+[INFO] Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.063 s -- in com.umc.pediupatrao.controller.DashboardControllerTest
+[INFO] Tests run: 37, Failures: 0, Errors: 0, Skipped: 0
+[INFO] BUILD SUCCESS
