@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="content">
+    <h2 class="fw-bold mb-4"><i class="bi bi-journal-text me-2 text-primary"></i>Auditoria</h2>
+    <div class="card shadow-sm">
+        <div class="card-body p-0">
+            <table class="table table-sm table-hover align-middle mb-0">
+                <thead class="table-dark">
+                    <tr>
+                        <th class="ps-3">Data/Hora</th>
+                        <th>Usuário</th>
+                        <th>Perfil</th>
+                        <th>Operação</th>
+                        <th>Entidade</th>
+                        <th>Alterações</th>
+                        <th>Justificativa</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:if="${#lists.isEmpty(registros)}">
+                        <td colspan="7" class="text-center text-muted py-4">Nenhum registro.</td>
+                    </tr>
+                    <tr th:each="r : ${registros}">
+                        <td class="ps-3" th:text="${#temporals.format(r.dataHora, 'dd/MM/yyyy HH:mm')}"></td>
+                        <td th:text="${r.usuario}"></td>
+                        <td th:text="${r.perfil}"></td>
+                        <td th:text="${r.operacao}"></td>
+                        <td th:text="${r.entidade + ' ' + r.entidadeId}"></td>
+                        <td>
+                            <div class="small" th:each="a : ${r.alteracoes}">
+                                <strong th:text="${a.campo}"></strong>:
+                                <span class="text-danger" th:text="${a.valorAnterior ?: '—'}"></span> →
+                                <span class="text-success" th:text="${a.valorNovo ?: '—'}"></span>
+                            </div>
+                        </td>
+                        <td th:text="${r.justificativa}"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+</html>
