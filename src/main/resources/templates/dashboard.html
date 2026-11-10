@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="content" id="dashboard">
+
+    <div class="cabecalho-pagina">
+        <div>
+            <h1>Desempenho de vendas</h1>
+            <p id="descricaoPeriodo">Carregando período…</p>
+        </div>
+        <div class="d-flex align-items-center gap-2 flex-wrap">
+            <span class="status-atualizacao" aria-live="polite">
+                <span class="pulso parado" id="pulso"></span>
+                <span id="ultimaAtualizacao">—</span>
+            </span>
+            <select class="form-select form-select-sm w-auto" id="autoRefresh" aria-label="Atualização automática">
+                <option value="0">Atualização manual</option>
+                <option value="30">Atualizar a cada 30s</option>
+                <option value="60" selected>Atualizar a cada 1 min</option>
+                <option value="300">Atualizar a cada 5 min</option>
+            </select>
+            <button class="btn btn-suave btn-sm" id="btnAtualizar" title="Atualizar agora"><i class="bi bi-arrow-clockwise"></i></button>
+            <button class="btn btn-suave btn-sm" id="btnCsv" title="Exportar dados em CSV"><i class="bi bi-download me-1"></i>CSV</button>
+        </div>
+    </div>
+
+    <!-- RF05 — filtros -->
+    <form class="painel filtros" id="formFiltros" autocomplete="off">
+        <div class="campo">
+            <label class="form-label">Período</label>
+            <div class="segmentado" id="presets" role="group" aria-label="Períodos rápidos">
+                <button type="button" data-dias="1">Hoje</button>
+                <button type="button" data-dias="7">7 dias</button>
+                <button type="button" data-dias="30" class="ativo">30 dias</button>
+                <button type="button" data-dias="90">90 dias</button>
+            </div>
+        </div>
+        <div class="campo">
+            <label class="form-label" for="fInicio">De</label>
+            <input type="date" class="form-control" id="fInicio" name="dataInicio">
+        </div>
+        <div class="campo">
+            <label class="form-label" for="fFim">Até</label>
+            <input type="date" class="form-control" id="fFim" name="dataFim">
+        </div>
+        <div class="campo">
+            <label class="form-label" for="fStatus">Situação</label>
+            <select class="form-select" id="fStatus" name="status"><option value="">Todas</option></select>
+        </div>
+        <div class="campo">
+            <label class="form-label" for="fCategoria">Categoria</label>
+            <select class="form-select" id="fCategoria" name="categoria"><option value="">Todas</option></select>
+        </div>
+        <div class="campo">
+            <label class="form-label" for="fCliente">Cliente</label>
+            <select class="form-select" id="fCliente" name="clienteId"><option value="">Todos</option></select>
+        </div>
+        <div class="campo" style="min-width:auto">
+            <button type="button" class="btn btn-link text-decoration-none px-1" id="btnLimpar"><i class="bi bi-x-circle me-1"></i>Limpar</button>
+        </div>
+    </form>
+
+    <div class="alert alert-danger d-none" id="erroDashboard" role="alert"></div>
+
+    <!-- RF01 — indicadores -->
+    <section class="kpis" id="kpis" aria-label="Indicadores gerais">
+        <div class="painel kpi destaque">
+            <div class="kpi-rotulo"><i class="bi bi-cash-coin"></i>Faturamento</div>
+            <div class="kpi-valor" id="kFaturamento">—</div>
+            <div class="kpi-extra" id="kVariacao">&nbsp;</div>
+        </div>
+        <div class="painel kpi">
+            <div class="kpi-rotulo"><i class="bi bi-receipt"></i>Pedidos</div>
+            <div class="kpi-valor" id="kPedidos">—</div>
+            <div class="kpi-extra" id="kPedidosExtra">&nbsp;</div>
+        </div>
+        <div class="painel kpi">
+            <div class="kpi-rotulo"><i class="bi bi-graph-up-arrow"></i>Ticket médio</div>
+            <div class="kpi-valor" id="kTicket">—</div>
+            <div class="kpi-extra">por pedido válido</div>
+        </div>
+        <div class="painel kpi">
+            <div class="kpi-rotulo"><i class="bi bi-box-seam"></i>Itens vendidos</div>
+            <div class="kpi-valor" id="kItens">—</div>
+            <div class="kpi-extra" id="kDescontos">&nbsp;</div>
+        </div>
+        <div class="painel kpi">
+            <div class="kpi-rotulo"><i class="bi bi-x-octagon"></i>Cancelamentos</div>
+            <div class="kpi-valor" id="kCancel">—</div>
+            <div class="kpi-extra" id="kCancelExtra">&nbsp;</div>
+        </div>
+    </section>
+
+    <section class="grade-dash">
+        <!-- RF02 — vendas no tempo -->
+        <div class="painel span-8">
+            <div class="painel-titulo flex-wrap">
+                <div>
+                    <h3 id="tituloSerie">Faturamento no período</h3>
+                    <small>Pedidos cancelados não entram na conta</small>
+                </div>
+                <div class="d-flex gap-2 flex-wrap">
+                    <div class="segmentado" id="metricaSerie" role="group" aria-label="Métrica">
+                        <button type="button" data-metrica="faturamento" class="ativo">R$</button>
+                        <button type="button" data-metrica="pedidos">Pedidos</button>
+                    </div>
+                    <div class="segmentado" id="agrupamento" role="group" aria-label="Agrupamento">
+                        <button type="button" data-agr="dia" class="ativo">Dia</button>
+                        <button type="button" data-agr="semana">Semana</button>
+                        <button type="button" data-agr="mes">Mês</button>
+                    </div>
+                    <button type="button" class="btn btn-suave btn-sm" id="btnTabelaSerie" aria-pressed="false" title="Ver como tabela"><i class="bi bi-table"></i></button>
+                </div>
+            </div>
+            <div class="area-grafico" id="areaSerie"><canvas id="gSerie" aria-label="Gráfico de vendas no período" role="img"></canvas></div>
+            <div class="table-responsive d-none" id="tabelaSerie" style="max-height:290px"></div>
+        </div>
+
+        <!-- RF03 — situação dos pedidos -->
+        <div class="painel span-4">
+            <div class="painel-titulo">
+                <h3>Situação dos pedidos</h3>
+                <small id="totalStatus"></small>
+            </div>
+            <div class="lista-status" id="listaStatus"></div>
+        </div>
+
+        <!-- RF04 — produtos mais vendidos -->
+        <div class="painel span-6">
+            <div class="painel-titulo">
+                <h3>Produtos mais vendidos</h3>
+                <div class="segmentado" id="ordemRanking" role="group" aria-label="Ordenar ranking">
+                    <button type="button" data-ordem="quantidade" class="ativo">Quantidade</button>
+                    <button type="button" data-ordem="faturamento">Faturamento</button>
+                </div>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-sm ranking">
+                    <thead><tr><th>#</th><th>Produto</th><th class="text-end">Qtd.</th><th class="text-end">Receita</th><th style="width:25%"></th></tr></thead>
+                    <tbody id="tbRanking"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- RF02 — categorias -->
+        <div class="painel span-6">
+            <div class="painel-titulo">
+                <h3>Receita por categoria</h3>
+                <small>R$ com descontos aplicados</small>
+            </div>
+            <div class="area-grafico baixa"><canvas id="gCategorias" role="img" aria-label="Receita por categoria"></canvas></div>
+        </div>
+
+        <!-- RF02 — horário de pico -->
+        <div class="painel span-12">
+            <div class="painel-titulo">
+                <h3>Horários de pico</h3>
+                <small id="picoTexto">Pedidos por hora do dia</small>
+            </div>
+            <div class="area-grafico baixa"><canvas id="gHoras" role="img" aria-label="Pedidos por hora do dia"></canvas></div>
+        </div>
+    </section>
+
+    <script th:src="@{/vendor/chartjs/chart.umd.min.js}"></script>
+    <script th:src="@{/js/dashboard.js}"></script>
+</div>
+</body>
+</html>
