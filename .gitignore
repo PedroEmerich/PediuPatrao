@@ -1,2 +1,21 @@
+# build
 /target/
+*.class
+*.jar
+!.mvn/wrapper/maven-wrapper.jar
+
+# IDEs
 .vscode/
+.idea/
+*.iml
+nbproject/
+nb-configuration.xml
+
+# sistema / logs
+.DS_Store
+Thumbs.db
+*.log
+node_modules/
+
+# variáveis locais (nunca versionar senha do MongoDB)
+.env
